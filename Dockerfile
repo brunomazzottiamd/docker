@@ -19,6 +19,7 @@ RUN apt-get --yes update && \
     apt-get --yes install --no-install-recommends \
         less \
         tree \
+        htop \
         shellcheck \
         emacs \
         && \
