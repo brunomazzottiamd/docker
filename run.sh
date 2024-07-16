@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
-source "${script_dir}/config"
+source "${script_dir}/config.sh"
 
 trim_string() {
     : "${1#"${1%%[![:space:]]*}"}"
@@ -22,7 +22,8 @@ fi
 #     --interactive \
 #     "${container_name}" &> /dev/null
 
-docker run -it \
+docker run \
+    -it \
     --network host \
     --device /dev/kfd \
     --device /dev/dri \
