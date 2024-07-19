@@ -1,0 +1,16 @@
+# My stuff:
+pipdeptree==2.23.1
+black[jupyter]==24.4.2
+ipython==8.26.0
+jupyterlab==4.2.4
+jupyter-black==0.3.4
+
+# Triton stuff:
+numpy==1.26.4
+scipy==1.14.0
+pandas==2.2.2
+matplotlib==3.9.1
+tabulate==0.9.0
+pytest==7.3.2
+lit==18.1.8
+pre-commit==3.7.1
