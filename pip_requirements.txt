@@ -6,6 +6,7 @@ jupyterlab==4.2.4
 jupyter-black==0.3.4
 
 # Triton stuff:
+# Using latest NumPy from 1.0 series.
 numpy==1.26.4
 scipy==1.14.0
 pandas==2.2.2

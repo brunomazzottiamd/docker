@@ -22,48 +22,27 @@ ENV PIP_ROOT_USER_ACTION=ignore \
     TRITON_USE_ROCM=ON
 
 ### apt step:
+COPY apt_requirements.txt /tmp
     # Update package index.
 RUN apt-get --yes update && \
     # Update packages.
     apt-get --yes upgrade && \
-    # Install my stuff.
-    apt-get --yes install --no-install-recommends \
-        less \
-        tree \
-        htop \
-        shellcheck \
-        emacs \
-        && \
+    # Install packages.
+    sed 's/#.*//;/^$/d' /tmp/apt_requirements.txt \
+        | xargs apt-get --yes install --no-install-recommends && \
     # Clean up apt.
     apt-get --yes autoremove && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm --recursive --force /tmp/apt_requirements.txt /var/lib/apt/lists/*
 
 ### pip step:
+COPY pip_requirements.txt /tmp
     # Uninstall Triton shipped with PyTorch, we'll compile Triton from source.
 RUN pip uninstall --yes triton && \
-    # Install my stuff.
-    pip install --no-cache-dir \
-        pipdeptree \
-        ipython \
-        jupyterlab \
-        black \
-        'black[jupyter]' \
-        jupyter-black \
-        && \
-    # Install Triton stuff.
-    # Using latest NumPy from 1.0 series.
-    pip install --no-cache-dir \
-        numpy==1.26.4 \
-        scipy \
-        pandas \
-        matplotlib \
-        tabulate \
-        pytest \
-        pre-commit \
-        lit \
-        && \
+    # Install pacakges.
+    pip install --no-cache-dir --requirement /tmp/pip_requirements.txt && \
     # Clean up pip.
+    rm --recursive --force /tmp/pip_requirements.txt && \
     pip cache purge
 
 ### Prepare Triton repository:
