@@ -1,6 +1,10 @@
 # My stuff:
 pipdeptree==2.23.1
+flake8==7.1.0
+pylint==3.2.6
+isort==5.13.2
 black[jupyter]==24.4.2
+mypy==1.4.1
 ipython==8.26.0
 jupyterlab==4.2.4
 jupyter-black==0.3.4
