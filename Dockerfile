@@ -45,12 +45,15 @@ RUN pip uninstall --yes triton && \
     rm --recursive --force /tmp/pip_requirements.txt && \
     pip cache purge
 
-### Prepare Triton repository:
-WORKDIR "${TRITON_REPO_DIR}"
+### Configure Git:
 RUN git config --global user.name "${USER_REAL_NAME}" && \
     git config --global user.email "${USER_EMAIL}" && \
-    git config --global core.editor 'code --wait' && \
-    git clone https://github.com/triton-lang/triton . && \
+    # TODO: Configure editor as `editor.sh` script.
+    git config --global core.editor 'code --wait'
+
+### Prepare Triton repository:
+WORKDIR "${TRITON_REPO_DIR}"
+RUN git clone https://github.com/triton-lang/triton . && \
     git remote add rocm https://github.com/ROCm/triton.git && \
     git remote add "${USER_NAME}" https://github.com/brunomazzottiamd/triton.git && \
     git fetch --all && \
