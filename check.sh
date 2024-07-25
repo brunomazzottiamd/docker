@@ -6,4 +6,5 @@ shellcheck \
     --shell=bash \
     --check-sourced \
     --source-path="${script_dir}" \
-    "${script_dir}"/*.sh
+    "${script_dir}"/*.sh \
+    "${script_dir}/cscripts"/*.sh

@@ -10,5 +10,5 @@ git clone --no-checkout --single-branch --branch="${REPO_BRANCH}" --depth=1 \
 git -C "${LOCAL_TUNE_GEMM_DIR}" sparse-checkout set --cone &&
 git -C "${LOCAL_TUNE_GEMM_DIR}" checkout "${REPO_BRANCH}" &&
 git -C "${LOCAL_TUNE_GEMM_DIR}" sparse-checkout set "${REPO_TUNE_GEMM_DIR}" &&
-mv "${LOCAL_TUNE_GEMM_DIR}/${REPO_TUNE_GEMM_DIR}/"* "${LOCAL_TUNE_GEMM_DIR}" &&
+mv "${LOCAL_TUNE_GEMM_DIR}/${REPO_TUNE_GEMM_DIR}"/* "${LOCAL_TUNE_GEMM_DIR}" &&
 rm --recursive --force "${LOCAL_TUNE_GEMM_DIR}/.git"
