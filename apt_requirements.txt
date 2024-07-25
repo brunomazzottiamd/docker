@@ -1,9 +1,8 @@
 # My stuff:
 less=590-1ubuntu0.22.04.3
 tree=2.0.2-1
+bc=1.07.1-3build1
 htop=3.0.5-7build2
+zsh=5.8.1-1
 shellcheck=0.8.0-2
 emacs=1:27.1+1-3ubuntu5.1
-
-# See https://www.monolune.com/articles/installing-apt-packages-from-a-requirements-file/:
-# `sed 's/#.*//' my-requirements-file.txt | xargs sudo apt-get install`
