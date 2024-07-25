@@ -11,7 +11,7 @@ docker build \
     --build-arg GROUP_ID="${GROUP_ID}" \
     --build-arg GROUP_NAME="${GROUP_NAME}" \
     --build-arg TRITON_DEV_DIR="${TRITON_DEV_DIR}" \
-    --build-arg HOME_DIR="${HOME_DIR}" \
+    --build-arg CONTAINER_HOME_DIR="${CONTAINER_HOME_DIR}" \
     --build-arg TRITON_REPO_DIR="${TRITON_REPO_DIR}" \
     --tag "${IMAGE_NAME}" \
     "${script_dir}"

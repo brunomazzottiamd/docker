@@ -23,5 +23,8 @@ export TRITON_DEV_NAME='triton_dev'
 export IMAGE_NAME="${USER_NAME}_${TRITON_DEV_NAME}"
 
 export TRITON_DEV_DIR="/${TRITON_DEV_NAME}"
-export HOME_DIR="${TRITON_DEV_DIR}/home"
+# `hhome` stands for "host home".
+export HOST_HOME_DIR="${TRITON_DEV_DIR}/hhome"
+# `chome` stands for "container home".
+export CONTAINER_HOME_DIR="${TRITON_DEV_DIR}/chome"
 export TRITON_REPO_DIR="${TRITON_DEV_DIR}/triton"

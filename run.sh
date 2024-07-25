@@ -22,14 +22,13 @@ fi
 #     --interactive \
 #     "${container_name}" &> /dev/null
 
-# FIXME: Running container as user isn't working.
-#        Add `--user "${USER_ID}:${GROUP_ID}" \` to `docker run` when it's fixed.
 docker run \
     -it \
-    --workdir "${TRITON_DEV_DIR}" \
-    --network host \
     --device /dev/kfd \
     --device /dev/dri \
-    --mount "type=bind,source=${HOME},target=${HOME_DIR}" \
+    --network host \
+    --mount "type=bind,source=${HOME},target=${HOST_HOME_DIR}" \
+    --user "${USER_ID}:${GROUP_ID}" \
+    --workdir "${TRITON_DEV_DIR}" \
     --name "${container_name}" \
     "${IMAGE_NAME}"

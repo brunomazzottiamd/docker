@@ -8,7 +8,7 @@ ARG USER_NAME
 ARG GROUP_ID
 ARG GROUP_NAME
 ARG TRITON_DEV_DIR
-ARG HOME_DIR
+ARG CONTAINER_HOME_DIR
 ARG TRITON_REPO_DIR
 
 ### Image metadata:
@@ -44,12 +44,32 @@ RUN pip uninstall --yes triton && \
     # Clean up pip.
     rm --recursive --force /tmp/pip_requirements.txt && \
     pip cache purge
+    # FIXME: After all, `pip check` reports the following version
+    #        inconsistencies:
+    #        > numba 0.55.2 has requirement numpy<1.23,>=1.18,
+    #        > but you have numpy 1.26.4.
 
 ### Configure Git:
 RUN git config --global user.name "${USER_REAL_NAME}" && \
     git config --global user.email "${USER_EMAIL}" && \
     # TODO: Configure editor as `editor.sh` script.
     git config --global core.editor 'code --wait'
+
+### Setup user:
+    # Create group.
+RUN addgroup --system --gid "${GROUP_ID}" "${GROUP_NAME}" && \
+    # Create user.
+    adduser --system --gid "${GROUP_ID}" --uid "${USER_ID}" "${USER_NAME}" \
+        --home "${CONTAINER_HOME_DIR}" --shell "$(which zsh)" && \
+    # Add user to special groups so GPU is accessible.
+    usermod --append --groups render,video "${USER_NAME}" && \
+    # Create empty `~/.zshrc` file for the user.
+    touch "${CONTAINER_HOME_DIR}/.zshrc" && \
+    chown "${USER_NAME}:${GROUP_NAME}" "${CONTAINER_HOME_DIR}/.zshrc"
+USER "${USER_NAME}"
+    # Setup Anaconda environment.
+RUN conda init zsh && \
+    echo 'conda activate py_3.10' >> "${CONTAINER_HOME_DIR}/.zshrc"
 
 ### Prepare Triton repository:
 WORKDIR "${TRITON_REPO_DIR}"
@@ -63,27 +83,9 @@ RUN git clone https://github.com/triton-lang/triton . && \
 WORKDIR "${TRITON_REPO_DIR}/python"
 RUN pip install --editable .
 
-### Setup user:
-# RUN addgroup --system --gid "${GROUP_ID}" "${GROUP_NAME}" && \
-#     adduser --system --gid "${GROUP_ID}" --uid "${USER_ID}" "${USER_NAME}" \
-#         --home "${HOME_DIR}" --shell "$(which bash)" && \
-#     chown --recursive "${USER_NAME}:${GROUP_NAME}" "${TRITON_DEV_DIR}"
-# USER "${USER_NAME}"
-# FIXME: This step isn't working!
-#        User sees Python *3.12.3* from `/opt/conda/bin/python` while `root`
-#        sees Python *3.10.14* from `/opt/conda/envs/py_3.10/bin/python`.
-#           Possible solution:
-#           `conda init && conda activate py_3.10`
-#        GPUs aren't visible to the user.
-#           Possible solution:
-#           `usermod --append --groups render,video "${USER_NAME}"`
-
 ### Entrypoint:
 WORKDIR "${TRITON_DEV_DIR}"
-ENTRYPOINT [ "bash" ]
-
-# FIXME: After all, `pip check` reports the following version inconsistencies:
-# > numba 0.55.2 has requirement numpy<1.23,>=1.18, but you have numpy 1.26.4.
+ENTRYPOINT [ "zsh" ]
 
 # `jupyter lab --allow-root --no-browser` runs Jupyter on port 8888.
 # TODO: How can we access Jupyter from our development environment?
