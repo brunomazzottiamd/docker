@@ -19,3 +19,6 @@ tabulate==0.9.0
 pytest==7.3.2
 lit==18.1.8
 pre-commit==3.7.1
+
+# ROCProfiler ATT Viewer:
+websockets==12.0
