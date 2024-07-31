@@ -56,7 +56,7 @@ WORKDIR "${TRITON_REPO_DIR}"
 RUN git clone https://github.com/triton-lang/triton . && \
     git remote add rocm https://github.com/ROCm/triton.git && \
     git remote add "${USER_NAME}" https://github.com/brunomazzottiamd/triton.git && \
-    git fetch --all && \
+    git fetch --all --prune && \
     pre-commit install
 
 ### Compile Triton:
