@@ -57,6 +57,9 @@ RUN git clone https://github.com/triton-lang/triton . && \
     git remote add rocm https://github.com/ROCm/triton.git && \
     git remote add "${USER_NAME}" https://github.com/brunomazzottiamd/triton.git && \
     git fetch --all --prune && \
+    git checkout --track rocm/triton-mlir && \
+    git checkout --track rocm/main_perf && \
+    git checkout main && \
     pre-commit install
 
 ### Compile Triton:
