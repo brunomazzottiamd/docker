@@ -7,3 +7,9 @@ htop=3.0.5-7build2
 zsh=5.8.1-1
 shellcheck=0.8.0-2
 emacs=1:27.1+1-3ubuntu5.1
+
+# LaTeX is required for `plot_layout.py` script.
+texlive-base=2021.20220204-1
+texlive-latex-extra=2021.20220204-1
+texlive-fonts-extra=2021.20220204-1
+texlive-fonts-recommended=2021.20220204-1
