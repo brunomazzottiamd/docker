@@ -24,6 +24,10 @@ fi
 
 # FIXME: Running container as user isn't working.
 #        Add `--user "${USER_ID}:${GROUP_ID}" \` to `docker run` when it's fixed.
+
+# FIXME: SSH bind mount target should be the user home directory instead of the
+#        hardcoded `/root/.ssh`.
+
 docker run \
     -it \
     --workdir "${TRITON_DEV_DIR}" \
@@ -31,5 +35,6 @@ docker run \
     --device /dev/kfd \
     --device /dev/dri \
     --mount "type=bind,source=${HOME},target=${HOME_DIR}" \
+    --mount "type=bind,source=${HOME}/.ssh,target=/root/.ssh,readonly" \
     --name "${container_name}" \
     "${IMAGE_NAME}"

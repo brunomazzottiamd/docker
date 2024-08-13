@@ -54,13 +54,16 @@ RUN pip uninstall --yes triton && \
 RUN git config --global user.name "${USER_REAL_NAME}" && \
     git config --global user.email "${USER_EMAIL}" && \
     # TODO: Configure editor as `editor.sh` script.
-    git config --global core.editor 'code --wait'
+    git config --global core.editor 'code --wait' && \
+    # Set GitHub SSH hosts as known hosts:
+    mkdir --parents --mode 0700 ~/.ssh && \
+    ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 ### Prepare Triton repository:
 WORKDIR "${TRITON_REPO_DIR}"
-RUN git clone https://github.com/triton-lang/triton . && \
-    git remote add rocm https://github.com/ROCm/triton.git && \
-    git remote add "${USER_NAME}" https://github.com/brunomazzottiamd/triton.git && \
+RUN --mount=type=ssh git clone git@github.com:triton-lang/triton.git . && \
+    git remote add rocm git@github.com:ROCm/triton.git && \
+    git remote add "${USER_NAME}" git@github.com:brunomazzottiamd/triton.git && \
     git fetch --all --prune && \
     git checkout --track rocm/triton-mlir && \
     git checkout --track rocm/main_perf && \
@@ -70,6 +73,9 @@ RUN git clone https://github.com/triton-lang/triton . && \
 ### Compile Triton:
 WORKDIR "${TRITON_REPO_DIR}/python"
 RUN pip install --editable .
+
+### Remove build time SSH stuff:
+RUN rm --recursive --force ~/.ssh
 
 ### Setup user:
 # RUN addgroup --system --gid "${GROUP_ID}" "${GROUP_NAME}" && \
