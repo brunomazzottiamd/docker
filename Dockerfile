@@ -53,11 +53,22 @@ RUN pip uninstall --yes triton && \
 ### Configure Git:
 RUN git config --global user.name "${USER_REAL_NAME}" && \
     git config --global user.email "${USER_EMAIL}" && \
-    # TODO: Configure editor as `editor.sh` script.
-    git config --global core.editor 'code --wait' && \
+    # `editor.sh` is in `cscripts`, see next step for more details.
+    git config --global core.editor /triton_dev/docker/cscripts/editor.sh && \
     # Set GitHub SSH hosts as known hosts:
     mkdir --parents --mode 0700 ~/.ssh && \
     ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+### Get useful scripts from personal Docker repository:
+WORKDIR /triton_dev/docker
+    # Clone repository:
+RUN --mount=type=ssh git clone --no-checkout git@github.com:brunomazzottiamd/docker.git . && \
+    # Sparse checkout only `cscripts` directory:
+    git sparse-checkout set --cone && \
+    git checkout main && \
+    git sparse-checkout set cscripts && \
+    # Add `cscripts` to `PATH`:
+    echo 'export PATH="${PATH}:/triton_dev/docker/cscripts"' >> ~/.bashrc
 
 ### Prepare Triton repository:
 WORKDIR /triton_dev/triton
