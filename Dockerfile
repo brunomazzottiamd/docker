@@ -46,6 +46,9 @@ COPY pip_requirements.txt /tmp
 RUN pip uninstall --yes triton && \
     # Install pacakges.
     pip install --no-cache-dir --requirement /tmp/pip_requirements.txt && \
+    # Install `hip-python` from TestPyPI package index.
+    # (it's required for `tune_gemm.py --icache_flush` option)
+    pip install --no-cache-dir --index-url https://test.pypi.org/simple hip-python~=6.1 && \
     # Clean up pip.
     rm --recursive --force /tmp/pip_requirements.txt && \
     pip cache purge
