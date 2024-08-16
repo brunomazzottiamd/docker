@@ -72,14 +72,23 @@ RUN --mount=type=ssh git clone --no-checkout git@github.com:brunomazzottiamd/doc
 
 ### Prepare Triton repository:
 WORKDIR /triton_dev/triton
+    # Clone repository:
 RUN --mount=type=ssh git clone git@github.com:triton-lang/triton.git . && \
+    # Add remotes of interest:
     git remote add rocm git@github.com:ROCm/triton.git && \
     git remote add "${USER_NAME}" git@github.com:brunomazzottiamd/triton.git && \
     git fetch --all --prune && \
+    # Checkout branches of interest:
     git checkout --track rocm/triton-mlir && \
     git checkout --track rocm/main_perf && \
     git checkout main && \
-    pre-commit install
+    # Install pre-commit hooks:
+    pre-commit install && \
+    # Do a "fake commit" to initialize `pre-commit` framework, it takes some
+    # time and it's an annoying process...
+    git add $(mktemp --tmpdir=.) && \
+    git commit --allow-empty-message --message '' && \
+    git reset --hard HEAD~
 
 ### Compile Triton:
 WORKDIR /triton_dev/triton/python
