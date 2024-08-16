@@ -23,18 +23,18 @@ fi
 #     "${container_name}" &> /dev/null
 
 # FIXME: Running container as user isn't working.
-#        Add `--user "${USER_ID}:${GROUP_ID}" \` to `docker run` when it's fixed.
+#        Add `--user "${USER_ID}:${GROUP_ID}"` to `docker run` when it's fixed.
 
-# FIXME: SSH bind mount target should be the user home directory instead of the
-#        hardcoded `/root/.ssh`.
+# FIXME: SSH bind mount target should be the container user home directory instead
+#        of the hardcoded `/root/.ssh`.
 
 docker run \
     -it \
-    --workdir "${TRITON_DEV_DIR}" \
-    --network host \
+    --name "${container_name}" \
     --device /dev/kfd \
     --device /dev/dri \
-    --mount "type=bind,source=${HOME},target=${HOME_DIR}" \
+    --network host \
+    --mount "type=bind,source=${HOME},target=/triton_dev/hhome" \
     --mount "type=bind,source=${HOME}/.ssh,target=/root/.ssh,readonly" \
-    --name "${container_name}" \
+    --workdir /triton_dev \
     "${IMAGE_NAME}"

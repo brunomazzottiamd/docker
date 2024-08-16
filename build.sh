@@ -19,9 +19,6 @@ docker build \
     --build-arg USER_NAME="${USER_NAME}" \
     --build-arg GROUP_ID="${GROUP_ID}" \
     --build-arg GROUP_NAME="${GROUP_NAME}" \
-    --build-arg TRITON_DEV_DIR="${TRITON_DEV_DIR}" \
-    --build-arg HOME_DIR="${HOME_DIR}" \
-    --build-arg TRITON_REPO_DIR="${TRITON_REPO_DIR}" \
     --ssh default="$(get_ssh_key)" \
     --tag "${IMAGE_NAME}" \
     "${script_dir}"

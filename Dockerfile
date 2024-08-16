@@ -7,9 +7,6 @@ ARG USER_ID
 ARG USER_NAME
 ARG GROUP_ID
 ARG GROUP_NAME
-ARG TRITON_DEV_DIR
-ARG HOME_DIR
-ARG TRITON_REPO_DIR
 
 ### Image metadata:
 LABEL org.opencontainers.image.authors="${USER_EMAIL}" \
@@ -63,7 +60,7 @@ RUN git config --global user.name "${USER_REAL_NAME}" && \
     ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 ### Prepare Triton repository:
-WORKDIR "${TRITON_REPO_DIR}"
+WORKDIR /triton_dev/triton
 RUN --mount=type=ssh git clone git@github.com:triton-lang/triton.git . && \
     git remote add rocm git@github.com:ROCm/triton.git && \
     git remote add "${USER_NAME}" git@github.com:brunomazzottiamd/triton.git && \
@@ -74,7 +71,7 @@ RUN --mount=type=ssh git clone git@github.com:triton-lang/triton.git . && \
     pre-commit install
 
 ### Compile Triton:
-WORKDIR "${TRITON_REPO_DIR}/python"
+WORKDIR /triton_dev/triton/python
 RUN pip install --editable .
 
 ### Remove build time SSH stuff:
@@ -83,8 +80,8 @@ RUN rm --recursive --force ~/.ssh
 ### Setup user:
 # RUN addgroup --system --gid "${GROUP_ID}" "${GROUP_NAME}" && \
 #     adduser --system --gid "${GROUP_ID}" --uid "${USER_ID}" "${USER_NAME}" \
-#         --home "${HOME_DIR}" --shell "$(which bash)" && \
-#     chown --recursive "${USER_NAME}:${GROUP_NAME}" "${TRITON_DEV_DIR}"
+#         --home /triton_dev/chome --shell "$(which bash)" && \
+#     chown --recursive "${USER_NAME}:${GROUP_NAME}" /triton_dev
 # USER "${USER_NAME}"
 # FIXME: This step isn't working!
 #        User sees Python *3.12.3* from `/opt/conda/bin/python` while `root`
@@ -96,7 +93,7 @@ RUN rm --recursive --force ~/.ssh
 #           `usermod --append --groups render,video "${USER_NAME}"`
 
 ### Entrypoint:
-WORKDIR "${TRITON_DEV_DIR}"
+WORKDIR /triton_dev
 ENTRYPOINT [ "bash" ]
 
 # FIXME: After all, `pip check` reports the following version inconsistencies:

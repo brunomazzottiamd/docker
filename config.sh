@@ -19,9 +19,4 @@ export GROUP_NAME
 ### Image / container information:
 
 export TRITON_DEV_NAME='triton_dev'
-
 export IMAGE_NAME="${USER_NAME}_${TRITON_DEV_NAME}"
-
-export TRITON_DEV_DIR="/${TRITON_DEV_NAME}"
-export HOME_DIR="${TRITON_DEV_DIR}/home"
-export TRITON_REPO_DIR="${TRITON_DEV_DIR}/triton"
