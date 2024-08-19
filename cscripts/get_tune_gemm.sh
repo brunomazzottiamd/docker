@@ -1,14 +1,62 @@
 #!/usr/bin/env bash
 
-REPO_URL='https://github.com/ROCm/triton.git'
-REPO_BRANCH='triton-mlir'
-REPO_TUNE_GEMM_DIR='scripts/amd/gemm'
-LOCAL_TUNE_GEMM_DIR='tune_gemm'
+repo_url='https://github.com/ROCm/triton.git'
 
-git clone --no-checkout --single-branch --branch="${REPO_BRANCH}" --depth=1 \
-    "${REPO_URL}" "${LOCAL_TUNE_GEMM_DIR}" &&
-git -C "${LOCAL_TUNE_GEMM_DIR}" sparse-checkout set --cone &&
-git -C "${LOCAL_TUNE_GEMM_DIR}" checkout "${REPO_BRANCH}" &&
-git -C "${LOCAL_TUNE_GEMM_DIR}" sparse-checkout set "${REPO_TUNE_GEMM_DIR}" &&
-mv "${LOCAL_TUNE_GEMM_DIR}/${REPO_TUNE_GEMM_DIR}"/* "${LOCAL_TUNE_GEMM_DIR}" &&
-rm --recursive --force "${LOCAL_TUNE_GEMM_DIR}/.git"
+# *tune_gemm* from `main_perf` branch, the default option:
+repo_branch='main_perf'
+repo_dir='python/perf-kernels/tune_gemm'
+local_dir='main_perf_tune_gemm'
+
+# For *tune_gemm* from `triton-mlir` branch, use these:
+# repo_branch='triton-mlir'
+# repo_dir='scripts/amd/gemm'
+# local_dir='triton_mlir_tune_gemm'
+
+while getopts ':r:b:d:l:' option; do
+    case "${option}" in
+        r)
+            repo_url="${OPTARG}"
+            ;;
+        b)
+            repo_branch="${OPTARG}"
+            ;;
+        d)
+            repo_dir="${OPTARG}"
+            ;;
+        l)
+            local_dir="${OPTARG}"
+            ;;
+        :)
+            echo "Option -${OPTARG} requires an argument."
+            exit 1
+            ;;
+        ?)
+            echo "Invalid option: -${OPTARG}."
+            exit 1
+            ;;
+    esac
+done
+
+local_dir=$(realpath "${local_dir}")
+
+echo "\
+Getting *tune_gemm* script from:
+* Git repository: ${repo_url}
+* Repository branch: ${repo_branch}
+* Branch directory: ${repo_dir}
+Saving *tune_gemm* script to:
+* Local directory: ${local_dir}"
+
+if [ -e "${local_dir}" ]; then
+    echo "Local directory already exists. It must be non-existent for successful cloning."
+    exit 1
+fi
+
+git clone --no-checkout --single-branch --branch="${repo_branch}" --depth=1 \
+    "${repo_url}" "${local_dir}" &&
+git -C "${local_dir}" sparse-checkout set --cone &&
+git -C "${local_dir}" checkout "${repo_branch}" &&
+git -C "${local_dir}" sparse-checkout set "${repo_dir}" &&
+mv "${local_dir}/${repo_dir}"/* "${local_dir}" &&
+rm --recursive --force "${local_dir}/.git" &&
+exit 0
