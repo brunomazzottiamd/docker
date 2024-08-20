@@ -13,6 +13,7 @@ get_ssh_key() {
 }
 
 docker build \
+    --no-cache \
     --build-arg USER_REAL_NAME="${USER_REAL_NAME}" \
     --build-arg USER_EMAIL="${USER_EMAIL}" \
     --build-arg USER_ID="${USER_ID}" \
