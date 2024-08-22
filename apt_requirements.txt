@@ -1,16 +1,17 @@
 # My stuff:
-less=590-1ubuntu0.22.04.3
-tree=2.0.2-1
-bc=1.07.1-3build1
-zip=3.0-12build2
-htop=3.0.5-7build2
-inetutils-ping=2:2.2-2ubuntu0.1
-zsh=5.8.1-1
-shellcheck=0.8.0-2
-emacs=1:27.1+1-3ubuntu5.1
+less
+tree
+bc
+zip
+htop
+inetutils-ping
+zsh
+shellcheck
+emacs
 
 # LaTeX is required for `plot_layout.py` script.
-texlive-base=2021.20220204-1
-texlive-latex-extra=2021.20220204-1
-texlive-fonts-extra=2021.20220204-1
-texlive-fonts-recommended=2021.20220204-1
+# TODO: Test `plot_layout.py` with just `texlive-base`.
+texlive-base
+texlive-latex-extra
+texlive-fonts-extra
+texlive-fonts-recommended

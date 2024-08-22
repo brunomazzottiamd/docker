@@ -1,4 +1,4 @@
-FROM rocm/pytorch:rocm6.1.3_ubuntu22.04_py3.10_pytorch_release-2.1.2
+FROM rocm/pytorch:rocm6.2_ubuntu22.04_py3.10_pytorch_release_2.3.0
 
 ### Build time variables:
 ARG USER_REAL_NAME
@@ -45,7 +45,7 @@ RUN pip uninstall --yes triton && \
     pip install --no-cache-dir --requirement /tmp/pip_requirements.txt && \
     # Install `hip-python` from TestPyPI package index.
     # (it's required for `tune_gemm.py --icache_flush` option)
-    pip install --no-cache-dir --index-url https://test.pypi.org/simple hip-python~=6.1 && \
+    pip install --no-cache-dir --index-url https://test.pypi.org/simple hip-python~=6.2 && \
     # Clean up pip.
     rm --recursive --force /tmp/pip_requirements.txt && \
     pip cache purge
@@ -117,7 +117,7 @@ WORKDIR /triton_dev
 ENTRYPOINT [ "bash" ]
 
 # FIXME: After all, `pip check` reports the following version inconsistencies:
-# > numba 0.55.2 has requirement numpy<1.23,>=1.18, but you have numpy 1.26.4.
+# > numba 0.55.2 has requirement numpy<1.23,>=1.18, but you have numpy 1.24.4.
 
 # `jupyter lab --allow-root --no-browser` runs Jupyter on port 8888.
 # TODO: How can we access Jupyter from our development environment?
