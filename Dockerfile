@@ -33,9 +33,9 @@ RUN apt-get --yes update && \
     rm --recursive --force /tmp/apt_requirements.txt /var/lib/apt/lists/*
 
 ### Special build of `aqlprofiler` (it's required to use ATT Viewer):
-COPY deb/hsa-amd-aqlprofile_1.0.0-local_amd64.deb /tmp
-RUN dpkg --install /tmp/hsa-amd-aqlprofile_1.0.0-local_amd64.deb && \
-    rm --recursive --force /tmp/hsa-amd-aqlprofile_1.0.0-local_amd64.deb
+COPY deb/rocm6.2_hsa-amd-aqlprofile_1.0.0-local_amd64.deb /tmp
+RUN dpkg --install /tmp/rocm6.2_hsa-amd-aqlprofile_1.0.0-local_amd64.deb && \
+    rm --recursive --force /tmp/rocm6.2_hsa-amd-aqlprofile_1.0.0-local_amd64.deb
 
 ### pip step:
 COPY pip_requirements.txt /tmp
