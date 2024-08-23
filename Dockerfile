@@ -92,7 +92,8 @@ RUN --mount=type=ssh git clone git@github.com:triton-lang/triton.git . && \
 
 ### Compile Triton:
 WORKDIR /triton_dev/triton/python
-RUN pip install --editable .
+    # FIXME: `--editable` option of `pip install` is causing trouble to `import triton`.
+RUN pip install .
 
 ### Remove build time SSH stuff:
 RUN rm --recursive --force ~/.ssh

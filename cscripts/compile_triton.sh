@@ -5,4 +5,5 @@ export TRITON_USE_ROCM='ON'
 
 pip uninstall --yes triton && \
 cd /triton_dev/triton/python && \
-pip install --editable .
+# FIXME: `--editable` option of `pip install` is causing trouble to `import triton`.
+pip install .
