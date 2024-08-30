@@ -5,22 +5,25 @@ pylint==3.2.6
 isort==5.13.2
 black[jupyter]==24.8.0
 mypy==1.8.0
-ipython==8.26.0
-jupyterlab==4.2.4
+ipython==8.27.0
+jupyterlab==4.2.5
 jupyter-black==0.3.4
 
 # PyTorch stuff:
 sympy==1.12.1
 
 # Triton stuff:
-numpy==1.24.4
-scipy==1.8.1
+numpy==1.26.4
+scipy==1.14.1
 pandas==2.2.2
 matplotlib==3.9.2
 tabulate==0.9.0
-pytest==7.3.2
+pytest==8.3.2
 lit==18.1.8
 pre-commit==3.8.0
 
 # ROCProfiler ATT Viewer:
-websockets==13.0
+websockets==13.0.1
+
+# FIXME: After all, `pip check` reports the following version inconsistencies:
+# > numba 0.55.2 has requirement numpy<1.23,>=1.18, but you have numpy 1.26.4.

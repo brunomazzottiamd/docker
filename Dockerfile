@@ -114,6 +114,3 @@ RUN rm --recursive --force ~/.ssh
 ### Entrypoint:
 WORKDIR /triton_dev
 ENTRYPOINT [ "bash" ]
-
-# FIXME: After all, `pip check` reports the following version inconsistencies:
-# > numba 0.55.2 has requirement numpy<1.23,>=1.18, but you have numpy 1.24.4.
