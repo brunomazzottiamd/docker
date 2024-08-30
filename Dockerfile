@@ -117,8 +117,3 @@ ENTRYPOINT [ "bash" ]
 
 # FIXME: After all, `pip check` reports the following version inconsistencies:
 # > numba 0.55.2 has requirement numpy<1.23,>=1.18, but you have numpy 1.24.4.
-
-# `jupyter lab --allow-root --no-browser` runs Jupyter on port 8888.
-# TODO: How can we access Jupyter from our development environment?
-#       * `-p 8888:8888` argument for `docker run`?
-#       * Add `EXPOSE 8888` to `Dockerfile`?
