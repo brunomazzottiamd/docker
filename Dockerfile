@@ -14,9 +14,7 @@ LABEL org.opencontainers.image.authors="${USER_EMAIL}" \
 
 ### Environment variables:
     # No warnings when running `pip` as `root`.
-ENV PIP_ROOT_USER_ACTION=ignore \
-    # Required for Triton compilation.
-    TRITON_USE_ROCM=ON
+ENV PIP_ROOT_USER_ACTION=ignore
 
 ### apt step:
 COPY apt_requirements.txt /tmp
@@ -93,7 +91,7 @@ RUN --mount=type=ssh git clone git@github.com:triton-lang/triton.git . && \
 ### Compile Triton:
 WORKDIR /triton_dev/triton/python
     # FIXME: `--editable` option of `pip install` is causing trouble to `import triton`.
-RUN pip install .
+RUN pip install --verbose .
 
 ### Remove build time SSH stuff:
 RUN rm --recursive --force ~/.ssh
