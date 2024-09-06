@@ -1,16 +1,9 @@
 #!/usr/bin/env bash
 
 repo_url='https://github.com/ROCm/triton.git'
-
-# *tune_gemm* from `main_perf` branch, the default option:
 repo_branch='main_perf'
-repo_dir='python/perf-kernels/tune_gemm'
-local_dir='main_perf_tune_gemm'
-
-# For *tune_gemm* from `triton-mlir` branch, use these:
-# repo_branch='triton-mlir'
-# repo_dir='scripts/amd/gemm'
-# local_dir='triton_mlir_tune_gemm'
+repo_dir='python/perf-kernels/tools/tune_gemm'
+local_dir='tune_gemm'
 
 while getopts ':r:b:d:l:' option; do
     case "${option}" in
