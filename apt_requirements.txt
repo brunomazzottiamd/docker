@@ -1,3 +1,6 @@
+# To help build Triton faster:
+ccache
+
 # My stuff:
 less
 tree

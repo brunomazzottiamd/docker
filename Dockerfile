@@ -89,27 +89,10 @@ RUN --mount=type=ssh git clone git@github.com:triton-lang/triton.git . && \
     git reset --hard HEAD~
 
 ### Compile Triton:
-WORKDIR /triton_dev/triton/python
-    # FIXME: `--editable` option of `pip install` is causing trouble to `import triton`.
-RUN pip install --verbose .
+RUN /triton_dev/docker/cscripts/compile_triton.sh
 
 ### Remove build time SSH stuff:
 RUN rm --recursive --force ~/.ssh
-
-### Setup user:
-# RUN addgroup --system --gid "${GROUP_ID}" "${GROUP_NAME}" && \
-#     adduser --system --gid "${GROUP_ID}" --uid "${USER_ID}" "${USER_NAME}" \
-#         --home /triton_dev/chome --shell "$(which bash)" && \
-#     chown --recursive "${USER_NAME}:${GROUP_NAME}" /triton_dev
-# USER "${USER_NAME}"
-# FIXME: This step isn't working!
-#        User sees Python *3.12.3* from `/opt/conda/bin/python` while `root`
-#        sees Python *3.10.14* from `/opt/conda/envs/py_3.10/bin/python`.
-#           Possible solution:
-#           `conda init && conda activate py_3.10`
-#        GPUs aren't visible to the user.
-#           Possible solution:
-#           `usermod --append --groups render,video "${USER_NAME}"`
 
 ### Entrypoint:
 WORKDIR /triton_dev
