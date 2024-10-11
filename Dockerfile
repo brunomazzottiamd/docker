@@ -60,11 +60,7 @@ RUN git config --global user.name "${USER_REAL_NAME}" && \
 ### Get useful scripts from personal Docker repository:
 WORKDIR /triton_dev/docker
     # Clone repository:
-RUN --mount=type=ssh git clone --no-checkout git@github.com:brunomazzottiamd/docker.git . && \
-    # Sparse checkout only `cscripts` directory:
-    git sparse-checkout set --cone && \
-    git checkout main && \
-    git sparse-checkout set cscripts && \
+RUN --mount=type=ssh git clone git@github.com:brunomazzottiamd/docker.git . && \
     # Add `cscripts` to `PATH`:
     echo 'export PATH="${PATH}:/triton_dev/docker/cscripts"' >> ~/.bashrc
 
