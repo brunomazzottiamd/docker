@@ -61,8 +61,8 @@ RUN git config --global user.name "${USER_REAL_NAME}" && \
 WORKDIR /triton_dev/docker
     # Clone repository:
 RUN --mount=type=ssh git clone git@github.com:brunomazzottiamd/docker.git . && \
-    # Add `cscripts` to `PATH`:
-    echo 'export PATH="${PATH}:/triton_dev/docker/cscripts"' >> ~/.bashrc
+    # Source aliases and environment variables:
+    echo 'source /triton_dev/docker/cscripts/bashrc.sh' >> ~/.bashrc
 
 ### Prepare Triton repository:
 WORKDIR /triton_dev/triton
