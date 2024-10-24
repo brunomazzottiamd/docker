@@ -6,6 +6,9 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
+# DOS remnants in my mind...
+alias cls='clear'
+
 # Text editor alias.
 alias ed='editor.sh'
 
@@ -28,3 +31,7 @@ alias gba='git branch --all'
 alias gco='git checkout'
 alias gcop='git checkout --patch'
 alias gsw='git show'
+
+# Triton aliases.
+# "Clean Triton Cache"
+alias ctc='rm -rf ~/.triton/cache'
