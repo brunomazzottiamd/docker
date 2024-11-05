@@ -8,7 +8,6 @@ bc
 zip
 htop
 inetutils-ping
-zsh
 shellcheck
 emacs
 
