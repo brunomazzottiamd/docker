@@ -13,7 +13,7 @@ emacs
 
 # LaTeX is required for `plot_layout.py` script.
 # TODO: Test `plot_layout.py` with just `texlive-base`.
-texlive-base
-texlive-latex-extra
-texlive-fonts-extra
-texlive-fonts-recommended
+# texlive-base
+# texlive-latex-extra
+# texlive-fonts-extra
+# texlive-fonts-recommended
