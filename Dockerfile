@@ -62,7 +62,9 @@ WORKDIR /triton_dev/docker
     # Clone repository:
 RUN --mount=type=ssh git clone git@github.com:brunomazzottiamd/docker.git . && \
     # Source aliases and environment variables:
-    echo 'source /triton_dev/docker/cscripts/bashrc.sh' >> ~/.bashrc
+    echo 'source /triton_dev/docker/cscripts/bashrc.sh' >> ~/.bashrc && \
+    # Source Emacs configuration:
+    echo '(load-file "/triton_dev/docker/cscripts/emacs.el")' >> ~/.emacs
 
 ### Prepare Triton repository:
 WORKDIR /triton_dev/triton
