@@ -35,3 +35,5 @@ alias gsw='git show'
 # Triton aliases.
 # "Clean Triton Cache"
 alias ctc='rm -rf ~/.triton/cache'
+# "Compile Triton"
+alias ct='compile_triton.sh'
