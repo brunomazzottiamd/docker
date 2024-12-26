@@ -6,6 +6,9 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
+# Unix aliases.
+alias l1='ls -1'
+
 # DOS remnants in my mind...
 alias cls='clear'
 
