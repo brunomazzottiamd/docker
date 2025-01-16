@@ -61,9 +61,17 @@ if [ -z "${container_exists}" ]; then
         -it \
         --detach \
         --name "${container_name}" \
+        --network host \
+        --ipc host \
         --device /dev/kfd \
         --device /dev/dri \
-        --network host \
+        --security-opt seccomp=unconfined \
+        --cap-add SYS_PTRACE \
+        --group-add video \
+        --group-add render \
+        --shm-size=16G \
+        --ulimit memlock=-1 \
+        --ulimit stack=67108864 \
         --mount "type=bind,source=${HOME},target=/triton_dev/hhome" \
         --mount "type=bind,source=${HOME}/.ssh,target=/root/.ssh,readonly" \
         --workdir /triton_dev \
