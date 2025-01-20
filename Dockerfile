@@ -89,6 +89,15 @@ RUN --mount=type=ssh git clone git@github.com:triton-lang/triton.git . && \
 ### Compile Triton:
 RUN /triton_dev/docker/cscripts/compile_triton.sh
 
+### Get flash attention repository:
+WORKDIR /triton_dev/flash-attention
+RUN --mount=type=ssh git clone git@github.com:Dao-AILab/flash-attention.git . && \
+    git remote add rocm git@github.com:ROCm/flash-attention.git && \
+    git remote add "${USER_NAME}" git@github.com:brunomazzottiamd/flash-attention.git && \
+    git fetch --all --prune && \
+    git checkout --track rocm/main_perf && \
+    git checkout main
+
 ### Remove build time SSH stuff:
 RUN rm --recursive --force ~/.ssh
 
