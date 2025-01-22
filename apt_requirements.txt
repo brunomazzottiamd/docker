@@ -1,3 +1,8 @@
+# Network utilities:
+inetutils-ping
+net-tools
+iproute2
+
 # To help build Triton faster:
 ccache
 
@@ -7,7 +12,6 @@ tree
 bc
 zip
 htop
-inetutils-ping
 shellcheck
 emacs
 
