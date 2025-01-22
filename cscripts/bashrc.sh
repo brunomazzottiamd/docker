@@ -34,6 +34,7 @@ alias gba='git branch --all'
 alias gco='git checkout'
 alias gcop='git checkout --patch'
 alias gsw='git show'
+alias grm='git remote --verbose'
 
 # Triton aliases.
 # "Clean Triton Cache"
