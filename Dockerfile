@@ -1,4 +1,4 @@
-FROM rocm/pytorch:rocm6.2.3_ubuntu22.04_py3.10_pytorch_release_2.3.0
+FROM rocm/pytorch:rocm6.3.2_ubuntu24.04_py3.12_pytorch_release_2.4.0
 
 ### Build time variables:
 ARG USER_REAL_NAME
@@ -13,6 +13,8 @@ LABEL org.opencontainers.image.authors="${USER_EMAIL}" \
       org.opencontainers.image.title="Triton development environment of ${USER_REAL_NAME}."
 
 ### Environment variables:
+    # ROCm major.minor version.
+ENV ROCM_VERSION=6.3
     # No warnings when running `pip` as `root`.
 ENV PIP_ROOT_USER_ACTION=ignore
     # Flash Attention implementation is Triton AMD.
@@ -33,9 +35,9 @@ RUN apt-get --yes update && \
     rm --recursive --force /tmp/apt_requirements.txt /var/lib/apt/lists/*
 
 ### Special build of `aqlprofiler` (it's required to use ATT Viewer):
-COPY deb/rocm6.2_hsa-amd-aqlprofile_1.0.0-local_amd64.deb /tmp
-RUN dpkg --install /tmp/rocm6.2_hsa-amd-aqlprofile_1.0.0-local_amd64.deb && \
-    rm --recursive --force /tmp/rocm6.2_hsa-amd-aqlprofile_1.0.0-local_amd64.deb
+COPY "deb/rocm${ROCM_VERSION}_hsa-amd-aqlprofile_1.0.0-local_amd64.deb" /tmp
+RUN dpkg --install "/tmp/rocm${ROCM_VERSION}_hsa-amd-aqlprofile_1.0.0-local_amd64.deb" && \
+    rm --recursive --force "/tmp/rocm${ROCM_VERSION}_hsa-amd-aqlprofile_1.0.0-local_amd64.deb"
 
 ### pip step:
 COPY pip_requirements.txt /tmp
@@ -45,7 +47,7 @@ RUN pip uninstall --yes triton && \
     pip install --no-cache-dir --requirement /tmp/pip_requirements.txt && \
     # Install `hip-python` from TestPyPI package index.
     # (it's required for `tune_gemm.py --icache_flush` option)
-    pip install --no-cache-dir --index-url https://test.pypi.org/simple hip-python~=6.2 && \
+    pip install --no-cache-dir --index-url https://test.pypi.org/simple "hip-python~=${ROCM_VERSION}" && \
     # Clean up pip.
     rm --recursive --force /tmp/pip_requirements.txt && \
     pip cache purge

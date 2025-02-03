@@ -68,7 +68,6 @@ if [ -z "${container_exists}" ]; then
         --security-opt seccomp=unconfined \
         --cap-add SYS_PTRACE \
         --group-add video \
-        --group-add render \
         --shm-size=16G \
         --ulimit memlock=-1 \
         --ulimit stack=67108864 \
