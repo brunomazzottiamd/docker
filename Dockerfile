@@ -34,11 +34,6 @@ RUN apt-get --yes update && \
     apt-get clean && \
     rm --recursive --force /tmp/apt_requirements.txt /var/lib/apt/lists/*
 
-### Special build of `aqlprofiler` (it's required to use ATT Viewer):
-COPY "deb/rocm${ROCM_VERSION}_hsa-amd-aqlprofile_1.0.0-local_amd64.deb" /tmp
-RUN dpkg --install "/tmp/rocm${ROCM_VERSION}_hsa-amd-aqlprofile_1.0.0-local_amd64.deb" && \
-    rm --recursive --force "/tmp/rocm${ROCM_VERSION}_hsa-amd-aqlprofile_1.0.0-local_amd64.deb"
-
 ### pip step:
 COPY pip_requirements.txt /tmp
     # Uninstall Triton shipped with PyTorch, we'll compile Triton from source.
@@ -69,6 +64,9 @@ RUN --mount=type=ssh git clone git@github.com:brunomazzottiamd/docker.git . && \
     echo 'source /triton_dev/docker/cscripts/bashrc.sh' >> ~/.bashrc && \
     # Source Emacs configuration:
     echo '(load-file "/triton_dev/docker/cscripts/emacs.el")' >> ~/.emacs
+
+### Special build of `aqlprofiler` (it's required to use ATT Viewer):
+RUN /triton_dev/docker/cscripts/install_aqlprofiler.sh
 
 ### Prepare Triton repository:
 WORKDIR /triton_dev/triton
