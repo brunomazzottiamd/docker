@@ -41,3 +41,6 @@ alias grm='git remote --verbose'
 alias ctc='rm -rf ~/.triton/cache'
 # "Compile Triton"
 alias ct='compile_triton.sh'
+
+# Other aliases.
+alias ss='cmatrix'  # ss = screen saver
