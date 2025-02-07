@@ -43,4 +43,4 @@ alias ctc='rm -rf ~/.triton/cache'
 alias ct='compile_triton.sh'
 
 # Other aliases.
-alias ss='cmatrix'  # ss = screen saver
+alias ss='cmatrix -b -s'  # ss = screen saver
