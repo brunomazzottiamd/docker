@@ -35,6 +35,13 @@ alias gco='git checkout'
 alias gcop='git checkout --patch'
 alias gsw='git show'
 alias grm='git remote --verbose'
+alias gbs='git bisect'
+alias gbss='git bisect start'
+alias gbsb='git bisect bad'
+alias gbsg='git bisect good'
+alias gbsk='git bisect skip'
+alias gbsr='git bisect reset'
+alias gbsl='git bisect log'
 
 # Triton aliases.
 # "Clean Triton Cache"
