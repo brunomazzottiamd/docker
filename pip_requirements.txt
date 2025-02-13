@@ -9,7 +9,6 @@ mypy==1.8.0
 ipython==8.27.0
 jupyterlab==4.2.5
 jupyter-black==0.3.4
-euporie==2.8.4
 csvkit==2.0.1
 
 # PyTorch stuff:
