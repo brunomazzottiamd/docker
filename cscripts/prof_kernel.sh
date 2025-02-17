@@ -154,13 +154,18 @@ echo 'Creating rocprofv2 input file...'
 
 rocprofv2_input_file=$(mktemp --quiet)
 
-# TODO: Add performance counters.
+# TODO: Add performance counters:
+#       PERFCOUNTER=SQ_LDS_DATA_FIFO_FULL
+#       PERFCOUNTER=SQ_LDS_CMD_FIFO_FULL
 cat << EOF >> "${rocprofv2_input_file}"
 att: TARGET_CU=0
 SE_MASK=0xFFF
 SIMD_SELECT=0xF
 ISA_CAPTURE_MODE=2
 DISPATCH=${dispatch_id}
+PERFCOUNTERS_CTRL=0x2
+PERFCOUNTER=SQ_LDS_UNALIGNED_STALL
+PERFCOUNTER=SQ_LDS_BANK_CONFLICT
 EOF
 
 echo 'rocprofv2 input file content is:'
@@ -173,7 +178,11 @@ echo 'Generating kernel execution trace...'
 
 clean_triton_cache
 
-# TODO: Add metrics file.
+# TODO: Add custom metrics file:
+# rocprofv2 option -m "${metrics_file}"
+# <gfx940>
+#   <metric name="SQ_LDS_DATA_FIFO_FULL" block=SQ event=136 descr="SQ_PERF_SEL_LDS_DATA_FIFO_FULL"></metric>
+#   <metric name="SQ_LDS_CMD_FIFO_FULL" block=SQ event=137 descr="SQ_PERF_SEL_LDS_CMD_FIFO_FULL"></metric>
 rocprofv2 \
     --input "${rocprofv2_input_file}" \
     --plugin att auto \
