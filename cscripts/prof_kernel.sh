@@ -146,3 +146,68 @@ echo "Kernel dispatch ID is [ ${dispatch_id} ]."
 copy_kernel_file 'Triton IR' 'ttir' "${triton_cache_dir}" "${output_dir}"
 copy_kernel_file 'Triton GPU IR' 'ttgir' "${triton_cache_dir}" "${output_dir}"
 copy_kernel_file 'assembly' 'amdgcn' "${triton_cache_dir}" "${output_dir}"
+
+
+### Create rocprofv2 input file
+
+echo 'Creating rocprofv2 input file...'
+
+rocprofv2_input_file=$(mktemp --quiet)
+
+# TODO: Add performance counters.
+cat << EOF >> "${rocprofv2_input_file}"
+att: TARGET_CU=0
+SE_MASK=0xFFF
+SIMD_SELECT=0xF
+ISA_CAPTURE_MODE=2
+DISPATCH=${dispatch_id}
+EOF
+
+echo 'rocprofv2 input file content is:'
+cat "${rocprofv2_input_file}"
+
+
+### Generate kernel execution trace
+
+echo 'Generating kernel execution trace...'
+
+clean_triton_cache
+
+# TODO: Add metrics file.
+rocprofv2 \
+    --input "${rocprofv2_input_file}" \
+    --plugin att auto \
+    --mode file \
+    --output-directory "${output_dir}" \
+    "${kernel_program[@]}"
+
+# Remove large files, keep only the parsed ATT.
+remove "${output_dir}"/*.out "${output_dir}"/*.att "${output_dir}"/*.txt
+
+
+### Compress output directory
+# It's easier to transfer a single file!
+
+echo "Compressing output directory to [${output_xz}]..."
+
+compression_level='7'
+tar \
+    -cf "${output_xz}" \
+    -I "xz -${compression_level}" \
+    "${output_dir}"
+
+du \
+    --summarize \
+    --human-readable \
+    "${output_xz}"
+
+
+### Cleanup intermediate files
+
+echo 'Cleaning intermediate files...'
+remove "${rocprofv2_input_file}" "${output_dir}"
+
+
+### Done
+
+echo 'DONE.'
