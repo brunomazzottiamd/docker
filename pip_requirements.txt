@@ -10,6 +10,7 @@ ipython==8.27.0
 jupyterlab==4.2.5
 jupyter-black==0.3.4
 csvkit==2.0.1
+beautifulsoup4==4.13.1
 
 # PyTorch stuff:
 sympy==1.12.1
