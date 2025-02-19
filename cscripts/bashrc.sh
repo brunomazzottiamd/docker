@@ -16,6 +16,7 @@ alias cls='clear'
 alias ed='editor.sh'
 
 # Git aliases.
+alias g='git'
 alias gs='git status'
 alias gf='git fetch --all --prune'
 alias gl='git log --oneline'
