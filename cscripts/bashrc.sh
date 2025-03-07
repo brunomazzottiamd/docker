@@ -57,3 +57,4 @@ alias ct='compile_triton.sh'
 
 # Other aliases.
 alias ss='cmatrix -b -s'  # ss = screen saver
+alias pick_gpu='source pick_gpu.sh'  # source `HIP_VISIBLE_DEVICES` exported by `pick_gpu.sh`
