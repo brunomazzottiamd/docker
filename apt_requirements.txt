@@ -15,6 +15,7 @@ htop
 shellcheck
 emacs
 cmatrix
+tmux
 
 # LaTeX is required for `plot_layout.py` script.
 # TODO: Test `plot_layout.py` with just `texlive-base`.
