@@ -194,6 +194,20 @@ rocprofv2 \
 # Remove large files, keep only the parsed ATT.
 remove "${output_dir}"/*.out "${output_dir}"/*.att "${output_dir}"/*.txt
 
+### Extract useful information from assembly file
+
+assembly_file="${output_dir}/${kernel_name}.amdgcn"
+
+echo 'Kernel register spills:'
+grep '_spill_count' "${assembly_file}" \
+    | tee "${output_dir}/${kernel_name}.spill_count.txt"
+
+echo 'Kernel global loads:'
+grep 'global_load_' "${assembly_file}" \
+    | cut --delimiter ' ' --fields 1 \
+    | sort \
+    | uniq --count \
+    | tee "${output_dir}/${kernel_name}.global_loads.txt"
 
 ### Compress output directory
 # It's easier to transfer a single file!
