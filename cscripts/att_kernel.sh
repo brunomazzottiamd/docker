@@ -16,10 +16,11 @@ remove() {
 copy_kernel_file() {
     kernel_file_desc="${1}"
     kernel_file_ext="${2}"
-    triton_cache_dir="${3}"
-    output_dir="${4}"
+    kernel_name="${3}"
+    triton_cache_dir="${4}"
+    output_dir="${5}"
     echo "Getting kernel ${kernel_file_desc}..."
-    kernel_file=$(find "${triton_cache_dir}" -name "*.${kernel_file_ext}" | head -1)
+    kernel_file=$(find "${triton_cache_dir}" -name "${kernel_name}.${kernel_file_ext}" -print -quit)
     echo "Kernel ${kernel_file_desc} is [ ${kernel_file} ]."
     cp "${kernel_file}" "${output_dir}"
 }
@@ -143,9 +144,9 @@ echo "Kernel dispatch ID is [ ${dispatch_id} ]."
 
 ### Get kernel IRs and assembly code
 
-copy_kernel_file 'Triton IR' 'ttir' "${triton_cache_dir}" "${output_dir}"
-copy_kernel_file 'Triton GPU IR' 'ttgir' "${triton_cache_dir}" "${output_dir}"
-copy_kernel_file 'assembly' 'amdgcn' "${triton_cache_dir}" "${output_dir}"
+copy_kernel_file 'Triton IR' 'ttir' "${kernel_name}" "${triton_cache_dir}" "${output_dir}"
+copy_kernel_file 'Triton GPU IR' 'ttgir' "${kernel_name}" "${triton_cache_dir}" "${output_dir}"
+copy_kernel_file 'assembly' 'amdgcn' "${kernel_name}" "${triton_cache_dir}" "${output_dir}"
 
 
 ### Create rocprofv2 input file
