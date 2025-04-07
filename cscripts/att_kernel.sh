@@ -76,7 +76,7 @@ fi
 output_dir=$(trim_string "${output_dir}")
 if [ -z "${output_dir}" ]; then
     # Use a sensible default as output directory.
-    output_dir=$(date "+${kernel_name}_prof_data_%Y-%m-%d-%H-%M-%S")
+    output_dir=$(date "+${kernel_name}_att_data_%Y-%m-%d-%H-%M-%S")
 fi
 output_xz="$(basename "${output_dir}").tar.xz"
 
@@ -101,14 +101,14 @@ for kernel_program_item in "${kernel_program[@]}"; do
 done
 
 
-### Start kernel profiling script
+### Start kernel tracing script
 
-echo 'PROFILING TRITON KERNEL...'
+echo 'TRACING TRITON KERNEL...'
 echo "Kernel name is [ ${kernel_name} ]."
 echo "Output directory is [ ${output_dir} ]. It'll be compressed to [ ${output_xz} ]."
 echo 'Kernel program is [' "${kernel_program[@]}" '].'
 if [ -z "${python_source}" ]; then
-    echo 'No Python source found in kernel program, the kernel profiling script will not be able to collect it.'
+    echo 'No Python source found in kernel program, the kernel tracing script will not be able to collect it.'
 else
     echo "Python source is [ ${python_source} ]."
 fi
