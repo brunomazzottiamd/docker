@@ -42,14 +42,23 @@ function compute_stats() {
     echo 'Statistics:'
     python << EOF
 import pandas as pd
+
 df = pd.read_csv("${input_csv_file}")
 df["duration_us"] = df["duration_ns"] / 10**3
 df.drop(columns=["duration_ns"], inplace=True)
-trim_percent = 0.2  # Adjust the trimming percentage (20%)
-def trimmed_stats(x):
-    x = x.sort_values().iloc[int(len(x) * trim_percent) : int(len(x) * (1 - trim_percent))]
-    return pd.Series({"mean_us": x.mean(), "std_us": x.std(ddof=0)})
-df = df.groupby("kernel_name")["duration_us"].apply(trimmed_stats).unstack().reset_index()
+
+def trimmed_stats(x, trim_percent=0.2):
+    x = x.sort_values().iloc[
+        int(len(x) * trim_percent) : int(len(x) * (1 - trim_percent))
+    ]
+    return pd.Series({"mean_us": x.mean().round(2), "std_us": x.std(ddof=0).round(2)})
+
+df = (
+    df.groupby("kernel_name")["duration_us"]
+    .apply(trimmed_stats)
+    .unstack()
+    .reset_index()
+)
 df.to_csv("${output_csv_file}", index=False)
 print(df.to_markdown(index=False))
 EOF
