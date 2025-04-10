@@ -44,6 +44,11 @@ function compute_stats() {
 import pandas as pd
 
 df = pd.read_csv("${input_csv_file}")
+if df.empty:
+    print("WARNING: Profiling data file is empty.")
+    import sys
+    sys.exit()
+
 df["duration_us"] = df["duration_ns"] / 10**3
 df.drop(columns=["duration_ns"], inplace=True)
 
