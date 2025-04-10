@@ -29,7 +29,7 @@ function prof_kernel() {
 	echo -n '.'
 	rocprof --stats "${@}" &> /dev/null
 	grep "${regex}" results.stats.csv \
-	    | cut --delimiter=',' --fields=1,3 \
+	    | csvcut --columns=1,3 \
 	    >> "${output_csv_file}"
 	remove results.*
     done
