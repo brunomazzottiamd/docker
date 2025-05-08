@@ -49,6 +49,7 @@ alias gbsg='git bisect good'
 alias gbsk='git bisect skip'
 alias gbsr='git bisect reset'
 alias gbsl='git bisect log'
+alias gfr='gf && gr'
 
 # Triton aliases.
 # "Clean Triton Cache"
