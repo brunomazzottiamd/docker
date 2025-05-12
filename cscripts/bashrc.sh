@@ -52,9 +52,11 @@ alias gbsl='git bisect log'
 alias gfr='gf && gr'
 
 # Triton aliases.
-# "Clean Triton Cache"
-alias ctc='rm -rf ~/.triton/cache'
-# "Compile Triton"
+# ctc => "Clean Triton Cache"
+alias ctc='clean_triton_cache.sh'
+# cnttc => "Count Triton Cache"
+alias cnttc='count_triton_cache.sh'
+# ct => "Compile Triton"
 alias ct='compile_triton.sh'
 
 # Other aliases.
