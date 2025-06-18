@@ -21,8 +21,12 @@ copy_kernel_file() {
     output_dir="${5}"
     echo "Getting kernel ${kernel_file_desc}..."
     kernel_file=$(find "${triton_cache_dir}" -name "${kernel_name}.${kernel_file_ext}" -print -quit)
-    echo "Kernel ${kernel_file_desc} is [ ${kernel_file} ]."
-    cp "${kernel_file}" "${output_dir}"
+    if [ -f "${kernel_file}" ]; then
+	echo "Kernel ${kernel_file_desc} is [ ${kernel_file} ]."
+	cp "${kernel_file}" "${output_dir}"
+    else
+	echo "Couldn't find kernel ${kernel_file_desc}."
+    fi
 }
 
 triton_cache_dir="${HOME}/.triton/cache"
@@ -198,16 +202,20 @@ remove "${output_dir}"/*.out "${output_dir}"/*.att "${output_dir}"/*.txt
 
 assembly_file="${output_dir}/${kernel_name}.amdgcn"
 
-echo 'Kernel register spills:'
-grep '_spill_count' "${assembly_file}" \
-    | tee "${output_dir}/${kernel_name}.spill_count.txt"
+if [ -f "${assembly_file}" ]; then
+    echo 'Kernel register spills:'
+    grep '_spill_count' "${assembly_file}" \
+	| tee "${output_dir}/${kernel_name}.spill_count.txt"
 
-echo 'Kernel global loads:'
-grep 'global_load_' "${assembly_file}" \
-    | cut --delimiter ' ' --fields 1 \
-    | sort \
-    | uniq --count \
-    | tee "${output_dir}/${kernel_name}.global_loads.txt"
+    echo 'Kernel global loads:'
+    # TODO: Take into account global_stores and other forms of memory access,
+    #       buffer_load for instance.
+    grep 'global_load_' "${assembly_file}" \
+	| cut --delimiter ' ' --fields 1 \
+	| sort \
+	| uniq --count \
+	| tee "${output_dir}/${kernel_name}.global_loads.txt"
+fi
 
 ### Compress output directory
 # It's easier to transfer a single file!
