@@ -17,8 +17,6 @@ LABEL org.opencontainers.image.authors="${USER_EMAIL}" \
 ENV ROCM_VERSION=6.3
     # No warnings when running `pip` as `root`.
 ENV PIP_ROOT_USER_ACTION=ignore
-    # Flash Attention implementation is Triton AMD.
-ENV FLASH_ATTENTION_TRITON_AMD_ENABLE=TRUE
 
 ### apt step:
 COPY apt_requirements.txt /tmp
@@ -90,6 +88,11 @@ RUN --mount=type=ssh git clone git@github.com:triton-lang/triton.git . && \
 
 ### Compile Triton:
 RUN /triton_dev/docker/cscripts/compile_triton.sh
+
+### Install AITER:
+WORKDIR /triton_dev/aiter
+RUN --mount=type=ssh git clone --recursive https://github.com/ROCm/aiter.git . && \
+    python setup.py develop
 
 ### Remove build time SSH stuff:
 RUN rm --recursive --force ~/.ssh
