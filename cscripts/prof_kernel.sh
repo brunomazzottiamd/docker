@@ -13,6 +13,21 @@ remove() {
     rm --recursive --force "${@}"
 }
 
+show_progress() {
+    bar_size=40
+    bar_char_done='#'
+    bar_char_todo='-'
+    bar_percentage_scale=2
+    current="${1}"
+    total="${2}"
+    percent=$(bc <<< "scale=${bar_percentage_scale}; 100 * ${current} / ${total}")
+    done=$(bc <<< "scale=0; ${bar_size} * ${percent} / 100")
+    todo=$(bc <<< "scale=0; ${bar_size} - ${done}")
+    done_sub_bar=$(printf "%${done}s" | tr ' ' "${bar_char_done}")
+    todo_sub_bar=$(printf "%${todo}s" | tr ' ' "${bar_char_todo}")
+    bar=$(printf "[${done_sub_bar}${todo_sub_bar}] [%3d /%3d] [${percent}%%]" "${current}" "${total}")
+    echo -ne "\r${bar}"
+}
 
 ### Profiling functions
 
@@ -25,8 +40,8 @@ function prof_kernel() {
     shift
     echo 'kernel_name,duration_ns' > "${output_csv_file}"
     echo "Running [ ${num_executions} ] rocprof executions:"
-    for ((i = 0; i < num_executions; ++i)); do
-	echo -n '.'
+    for ((i = 1; i <= num_executions; ++i)); do
+	show_progress "${i}" "${num_executions}"
 	rocprof --stats "${@}" &> /dev/null
 	grep "${regex}" results.stats.csv \
 	    | csvcut --columns=1,3 \
