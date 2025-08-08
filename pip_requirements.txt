@@ -13,7 +13,7 @@ csvkit==2.0.1
 beautifulsoup4==4.13.1
 
 # PyTorch stuff:
-sympy==1.12.1
+sympy==1.13.1
 
 # Triton stuff:
 ninja==1.11.1.3
