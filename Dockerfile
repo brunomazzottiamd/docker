@@ -1,4 +1,4 @@
-FROM rocm/pytorch:rocm6.3.2_ubuntu24.04_py3.12_pytorch_release_2.4.0
+FROM rocm/pytorch:rocm6.4.2_ubuntu24.04_py3.12_pytorch_release_2.6.0
 
 ### Build time variables:
 ARG USER_REAL_NAME
@@ -14,7 +14,7 @@ LABEL org.opencontainers.image.authors="${USER_EMAIL}" \
 
 ### Environment variables:
     # ROCm major.minor version.
-ENV ROCM_VERSION=6.3
+ENV ROCM_VERSION=6.4
     # No warnings when running `pip` as `root`.
 ENV PIP_ROOT_USER_ACTION=ignore
 
@@ -64,7 +64,8 @@ RUN --mount=type=ssh git clone git@github.com:brunomazzottiamd/docker.git . && \
     echo '(load-file "/triton_dev/docker/cscripts/emacs.el")' >> ~/.emacs
 
 ### Special build of `aqlprofiler` (it's required to use ATT Viewer):
-RUN /triton_dev/docker/cscripts/install_aqlprofiler.sh
+# This step doens't work for ROCm 6.4.
+# RUN /triton_dev/docker/cscripts/install_aqlprofiler.sh
 
 ### Prepare Triton repository:
 WORKDIR /triton_dev/triton
