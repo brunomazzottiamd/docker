@@ -1,4 +1,5 @@
 # Network utilities:
+ssh
 inetutils-ping
 net-tools
 iproute2
