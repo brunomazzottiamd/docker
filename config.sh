@@ -18,5 +18,5 @@ export GROUP_NAME
 
 ### Image / container information:
 
-export TRITON_DEV_NAME='triton_dev'
+export TRITON_DEV_NAME='triton_dev_rocm6.4'
 export IMAGE_NAME="${USER_NAME}_${TRITON_DEV_NAME}"
