@@ -45,6 +45,12 @@ RUN pip uninstall --yes triton && \
     rm --recursive --force /tmp/pip_requirements.txt && \
     pip cache purge
 
+### Finish installation of ROCm Compute Profiler:
+# Required software was installed in apt and pip steps. This is just configuration.
+RUN update-alternatives --install /usr/bin/rocprofiler-compute rocprof-compute /opt/rocm/bin/rocprof-compute 0 && \
+    locale-gen en_US.UTF-8 && \
+    update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+
 ### Configure Git:
 RUN git config --global user.name "${USER_REAL_NAME}" && \
     git config --global user.email "${USER_EMAIL}" && \
@@ -62,10 +68,6 @@ RUN --mount=type=ssh git clone git@github.com:brunomazzottiamd/docker.git . && \
     echo 'source /triton_dev/docker/cscripts/bashrc.sh' >> ~/.bashrc && \
     # Source Emacs configuration:
     echo '(load-file "/triton_dev/docker/cscripts/emacs.el")' >> ~/.emacs
-
-### Special build of `aqlprofiler` (it's required to use ATT Viewer):
-# This step doens't work for ROCm 6.4.
-# RUN /triton_dev/docker/cscripts/install_aqlprofiler.sh
 
 ### Prepare Triton repository:
 WORKDIR /triton_dev/triton

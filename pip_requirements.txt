@@ -42,3 +42,14 @@ websockets==15.0.1
 psutil==7.0.0
 pyyaml==6.0.2
 einops==0.8.1
+
+# ROCm Compute Profiler:
+astunparse==1.6.2
+colorlover==0.3.0
+dash==3.2.0
+pymongo==4.14.0
+tqdm==4.67.1
+dash-svg==0.0.12
+dash-bootstrap-components==2.0.3
+kaleido==0.2.1
+plotille==5.0.0

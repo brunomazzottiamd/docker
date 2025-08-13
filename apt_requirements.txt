@@ -18,6 +18,10 @@ emacs
 cmatrix
 tmux
 
+# ROCm Compute Profiler:
+rocprofiler-compute
+locales
+
 # LaTeX is required for `plot_layout.py` script.
 # TODO: Test `plot_layout.py` with just `texlive-base`.
 # texlive-base
