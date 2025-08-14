@@ -17,6 +17,7 @@ shellcheck
 emacs
 cmatrix
 tmux
+dos2unix
 
 # ROCm Compute Profiler:
 rocprofiler-compute
