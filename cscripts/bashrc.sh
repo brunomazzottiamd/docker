@@ -8,6 +8,8 @@ alias ....='cd ../../..'
 
 # Unix aliases.
 alias l1='ls -1'
+alias rmrf='rm --recursive --force'
+alias rmi='rm --interactive'
 
 # DOS remnants in my mind...
 alias cls='clear'
