@@ -1,5 +1,6 @@
-# Add `cscripts` to PATH. 
-export PATH="${PATH}:/triton_dev/docker/cscripts"
+# Add `cscripts` to PATH.
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+export PATH="${PATH}:${script_dir}"
 
 # Directory navigation aliases.
 alias ..='cd ..'
