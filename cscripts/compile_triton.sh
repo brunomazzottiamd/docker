@@ -47,3 +47,6 @@ pip uninstall --yes triton || true
 
 pip install --requirement python/requirements.txt
 pip install --verbose --no-build-isolation --editable .
+
+# Run vector add tutorial as a smoke test.
+python python/tutorials/01-vector-add.py
