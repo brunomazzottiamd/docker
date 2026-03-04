@@ -33,7 +33,12 @@ cd "${AITER_REPO}"
 git fetch --all --prune
 
 if git rev-parse --abbrev-ref --symbolic-full-name "@{u}" >/dev/null 2>&1; then
+    OLD_HEAD=$(git rev-parse HEAD)
     git pull --rebase --autostash
+    if [[ "${OLD_HEAD}" == "$(git rev-parse HEAD)" ]]; then
+        echo 'No changes detected. Skipping build.'
+        exit 0
+    fi
 else
     echo 'No upstream branch configured; skipping rebase.'
 fi
