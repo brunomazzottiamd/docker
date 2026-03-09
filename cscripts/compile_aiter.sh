@@ -7,6 +7,8 @@ REPO_PRIMARY='/triton_dev/aiter'
 REPO_SECONDARY='/workspace/aiter'
 REPO_URL='git@github.com:ROCm/aiter.git'
 
+CLONED=false
+
 # ------------------------------------------------------------------------------
 # Locate repository (primary takes precedence)
 # ------------------------------------------------------------------------------
@@ -20,6 +22,7 @@ else
     mkdir -p "$(dirname "${REPO_PRIMARY}")"
     git clone --recursive "${REPO_URL}" "${REPO_PRIMARY}"
     AITER_REPO="${REPO_PRIMARY}"
+    CLONED=true
 fi
 
 echo "Using AITER repo at: ${AITER_REPO}"
@@ -35,7 +38,7 @@ git fetch --all --prune
 if git rev-parse --abbrev-ref --symbolic-full-name "@{u}" >/dev/null 2>&1; then
     OLD_HEAD=$(git rev-parse HEAD)
     git pull --rebase --autostash
-    if [[ "${OLD_HEAD}" == "$(git rev-parse HEAD)" ]]; then
+    if [[ "${CLONED}" == false && "${OLD_HEAD}" == "$(git rev-parse HEAD)" ]]; then
         echo 'No changes detected. Skipping build.'
         exit 0
     fi

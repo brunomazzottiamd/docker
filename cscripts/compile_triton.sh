@@ -8,6 +8,8 @@ REPO_PRIMARY='/triton_dev/triton'
 REPO_SECONDARY='/workspace/triton'
 REPO_URL='git@github.com:triton-lang/triton.git'
 
+CLONED=false
+
 # ------------------------------------------------------------------------------
 # Locate repository (primary takes precedence)
 # ------------------------------------------------------------------------------
@@ -21,6 +23,7 @@ else
     mkdir -p "$(dirname "${REPO_PRIMARY}")"
     git clone "${REPO_URL}" "${REPO_PRIMARY}"
     TRITON_REPO="${REPO_PRIMARY}"
+    CLONED=true
 fi
 
 echo "Using Triton repo at: ${TRITON_REPO}"
@@ -36,7 +39,7 @@ git fetch --all --prune
 if git rev-parse --abbrev-ref --symbolic-full-name "@{u}" >/dev/null 2>&1; then
     OLD_HEAD=$(git rev-parse HEAD)
     git pull --rebase --autostash
-    if [[ "${OLD_HEAD}" == "$(git rev-parse HEAD)" ]]; then
+    if [[ "${CLONED}" == false && "${OLD_HEAD}" == "$(git rev-parse HEAD)" ]]; then
         echo 'No changes detected. Skipping build.'
         exit 0
     fi
