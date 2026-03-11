@@ -57,7 +57,7 @@ git submodule update --init --recursive
 # Build AITER
 # ------------------------------------------------------------------------------
 
-pip uninstall --yes aiter || true
+pip uninstall --yes amd-aiter || true
 python setup.py develop
 
 # Import AITER as a smoke test.
