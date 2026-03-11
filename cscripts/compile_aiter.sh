@@ -59,3 +59,6 @@ git submodule update --init --recursive
 
 pip uninstall --yes aiter || true
 python setup.py develop
+
+# Import AITER as a smoke test.
+python -c 'import aiter'
