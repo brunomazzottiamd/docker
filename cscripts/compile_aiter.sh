@@ -3,8 +3,8 @@ set -euo pipefail
 
 export PIP_ROOT_USER_ACTION=ignore
 
-REPO_PRIMARY='/triton_dev/aiter'
-REPO_SECONDARY='/workspace/aiter'
+REPO_PRIMARY='/workspace/aiter'
+REPO_SECONDARY='/triton_dev/aiter'
 REPO_URL='git@github.com:ROCm/aiter.git'
 
 CLONED=false

@@ -4,8 +4,8 @@ set -euo pipefail
 export PIP_ROOT_USER_ACTION=ignore
 export TRITON_BUILD_WITH_CCACHE=true
 
-REPO_PRIMARY='/triton_dev/triton'
-REPO_SECONDARY='/workspace/triton'
+REPO_PRIMARY='/workspace/triton'
+REPO_SECONDARY='/triton_dev/triton'
 REPO_URL='git@github.com:triton-lang/triton.git'
 
 CLONED=false
